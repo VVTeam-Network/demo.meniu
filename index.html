@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meniu VIP Premium</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --accent-gold: #D4AF37; 
+            --glass-blur: blur(15px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 100px; overflow-x: hidden; }
+
+        /* HEADER PREMIUM */
+        .header { text-align: center; padding: 50px 20px 30px; background: radial-gradient(circle at 50% -20%, rgba(212,175,55,0.15), var(--bg-dark) 80%); border-bottom: 1px solid var(--card-border); }
+        .logo-placeholder { width: 80px; height: 80px; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.0)); border: 1px solid var(--accent-gold); border-radius: 50%; margin: 0 auto 15px; display: flex; justify-content: center; align-items: center; font-size: 30px; color: var(--accent-gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); backdrop-filter: var(--glass-blur); }
+        .cafe-name { font-size: 28px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+        .status-badge { display: inline-block; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* FILTRE CATEGORII ACTIVE */
+        .categories-wrapper { position: sticky; top: 0; background: rgba(10, 10, 12, 0.85); backdrop-filter: var(--glass-blur); z-index: 100; padding: 15px 0; border-bottom: 1px solid var(--card-border); }
+        .categories { display: flex; overflow-x: auto; gap: 12px; padding: 0 20px; scrollbar-width: none; }
+        .categories::-webkit-scrollbar { display: none; }
+        .cat-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 10px 20px; border-radius: 25px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
+        .cat-btn.active { background: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(1.05); }
+
+        /* LISTA PRODUSE ANIMATA */
+        .menu-container { padding: 25px 20px; }
+        .menu-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s ease; opacity: 1; transform: translateY(0); }
+        .menu-item.hidden { display: none; opacity: 0; transform: translateY(20px); }
+        .menu-item:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
+        
+        .item-details { flex-grow: 1; padding-right: 20px; }
+        .item-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #fff; letter-spacing: 0.5px; }
+        .item-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .item-price { font-size: 18px; font-weight: 800; color: var(--accent-gold); white-space: nowrap; background: rgba(212, 175, 55, 0.1); padding: 8px 14px; border-radius: 12px; }
+
+        /* SMART BOTTOM SHEET (Meniul de jos) */
+        .fab-main { position: fixed; bottom: 25px; right: 25px; background: var(--text-main); color: var(--bg-dark); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 10px 30px rgba(255,255,255,0.2); cursor: pointer; z-index: 1000; transition: 0.3s; }
+        .fab-main:active { transform: scale(0.9); }
+
+        .bottom-sheet { position: fixed; bottom: -100%; left: 0; width: 100%; background: rgba(15, 15, 20, 0.95); backdrop-filter: var(--glass-blur); border-top: 1px solid var(--card-border); border-radius: 30px 30px 0 0; padding: 30px 20px 40px; z-index: 999; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
+        .bottom-sheet.open { bottom: 0; }
+        
+        .sheet-handle { width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px; }
+        .sheet-title { font-size: 18px; font-weight: 800; margin-bottom: 25px; text-align: center; color: var(--text-main); letter-spacing: 1px; }
+        
+        .action-btn { display: flex; align-items: center; gap: 15px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 16px 20px; border-radius: 16px; margin-bottom: 12px; color: var(--text-main); font-weight: 600; font-size: 15px; text-decoration: none; transition: 0.2s; }
+        .action-btn i { font-size: 20px; color: var(--accent-gold); width: 25px; text-align: center; }
+        .action-btn:active { background: rgba(255,255,255,0.1); }
+        
+        /* Overlay negru cand se deschide meniul */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 998; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .overlay.active { opacity: 1; pointer-events: all; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-placeholder"><i class="fas fa-gem"></i></div>
+        <div class="cafe-name">Lounge 26</div> 
+        <div class="status-badge"><i class="fas fa-door-open" style="margin-right: 5px;"></i> Deschis</div>
+    </div>
+
+    <div class="categories-wrapper">
+        <div class="categories">
+            <div class="cat-btn active" onclick="filterMenu('all', this)">Tot Meniul</div>
+            <div class="cat-btn" onclick="filterMenu('cafea', this)">Cafea</div>
+            <div class="cat-btn" onclick="filterMenu('reci', this)">Băuturi Reci</div>
+            <div class="cat-btn" onclick="filterMenu('desert', this)">Desert</div>
+        </div>
+    </div>
+
+    <div class="menu-container" id="menu-items">
+        
+        <div class="menu-item" data-category="cafea">
+            <div class="item-details">
+                <div class="item-name">Espresso Single Origin</div>
+                <div class="item-desc">Cafea de specialitate 100% Arabica, prăjită local, note de ciocolată.</div>
+            </div>
+            <div class="item-price">12 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="cafea">
+            <div class="item-details">
+                <div class="item-name">Flat White Premium</div>
+                <div class="item-desc">Espresso dublu intens și lapte micro-spumat la perfecție.</div>
+            </div>
+            <div class="item-price">19 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="reci">
+            <div class="item-details">
+                <div class="item-name">Limonadă Craft cu Mentă</div>
+                <div class="item-desc">Lămâi proaspăt stoarse, miere organică și mentă fresh. 400ml.</div>
+            </div>
+            <div class="item-price">22 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="reci">
+            <div class="item-details">
+                <div class="item-name">Iced Matcha Latte</div>
+                <div class="item-desc">Pudră de Matcha japoneză, lapte vegetal și gheață.</div>
+            </div>
+            <div class="item-price">26 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="desert">
+            <div class="item-details">
+                <div class="item-name">Cheesecake Basc</div>
+                <div class="item-desc">Copt la temperatură înaltă, interior cremos și sos de fructe de pădure.</div>
+            </div>
+            <div class="item-price">28 LEI</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleSheet()"></div>
+    
+    <div class="fab-main" onclick="toggleSheet()">
+        <i class="fas fa-ellipsis-v"></i>
+    </div>
+
+    <div class="bottom-sheet" id="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Informații Utile</div>
+        
+        <div class="action-btn" onclick="alert('Parola rețelei Wi-Fi este: Lounge2026\n\nConectare plăcută!')">
+            <i class="fas fa-wifi"></i> 
+            <div>Parolă Wi-Fi Gratuit</div>
+        </div>
+        
+        <a href="#" class="action-btn">
+            <i class="fab fa-instagram"></i> 
+            <div>Urmărește-ne pe Instagram</div>
+        </a>
+        
+        <a href="#" class="action-btn">
+            <i class="fas fa-map-marker-alt"></i> 
+            <div>Deschide în Google Maps</div>
+        </a>
+    </div>
+
+    <script>
+        // Funcția de filtrare inteligentă
+        function filterMenu(category, btnElement) {
+            // 1. Schimbă butonul activ
+            let buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // 2. Filtrează produsele
+            let items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                    setTimeout(() => item.style.opacity = '1', 50); // delay mic pentru efect smooth
+                } else {
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.display = 'none', 300); // asteapta animatia inainte sa ascunda
+                }
+            });
+        }
+
+        // Funcția pentru Smart Bottom Sheet
+        function toggleSheet() {
+            let sheet = document.getElementById('bottom-sheet');
+            let overlay = document.getElementById('overlay');
+            sheet.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>
 
