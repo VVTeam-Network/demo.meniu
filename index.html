@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Meniu VIP Premium</title>
+    <title>Meniu Digital | Speed Cafe</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -70,8 +70,8 @@
 <body>
 
     <div class="header">
-        <div class="logo-placeholder"><i class="fas fa-gem"></i></div>
-        <div class="cafe-name">Lounge 26</div> 
+        <div class="logo-placeholder"><i class="fas fa-bolt"></i></div>
+        <div class="cafe-name">Speed Cafe</div> 
         <div class="status-badge"><i class="fas fa-door-open" style="margin-right: 5px;"></i> Deschis</div>
     </div>
 
@@ -79,51 +79,59 @@
         <div class="categories">
             <div class="cat-btn active" onclick="filterMenu('all', this)">Tot Meniul</div>
             <div class="cat-btn" onclick="filterMenu('cafea', this)">Cafea</div>
-            <div class="cat-btn" onclick="filterMenu('reci', this)">Băuturi Reci</div>
-            <div class="cat-btn" onclick="filterMenu('desert', this)">Desert</div>
+            <div class="cat-btn" onclick="filterMenu('racoritoare', this)">Răcoritoare</div>
+            <div class="cat-btn" onclick="filterMenu('bere', this)">Bere</div>
         </div>
     </div>
 
     <div class="menu-container" id="menu-items">
         
-        <div class="menu-item" data-category="cafea">
+        <div class="menu-item" data-category="bere">
             <div class="item-details">
-                <div class="item-name">Espresso Single Origin</div>
-                <div class="item-desc">Cafea de specialitate 100% Arabica, prăjită local, note de ciocolată.</div>
+                <div class="item-name">Bere Ciuc Premium</div>
+                <div class="item-desc">Rece ca gheața, perfectă pentru serile de distracție. 500ml.</div>
             </div>
-            <div class="item-price">12 LEI</div>
+            <div class="item-price">10 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="bere">
+            <div class="item-details">
+                <div class="item-name">Heineken Silver</div>
+                <div class="item-desc">Extra fresh, gust echilibrat. 400ml.</div>
+            </div>
+            <div class="item-price">13 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="racoritoare">
+            <div class="item-details">
+                <div class="item-name">Limonadă cu Mentă</div>
+                <div class="item-desc">Fresh de lămâie, gheață, mentă proaspătă și miere.</div>
+            </div>
+            <div class="item-price">15 LEI</div>
+        </div>
+
+        <div class="menu-item" data-category="racoritoare">
+            <div class="item-details">
+                <div class="item-name">Pepsi Twist / Cola</div>
+                <div class="item-desc">Băutură răcoritoare carbogazoasă la sticlă 250ml.</div>
+            </div>
+            <div class="item-price">9 LEI</div>
         </div>
 
         <div class="menu-item" data-category="cafea">
             <div class="item-details">
-                <div class="item-name">Flat White Premium</div>
-                <div class="item-desc">Espresso dublu intens și lapte micro-spumat la perfecție.</div>
+                <div class="item-name">Espresso Scurt</div>
+                <div class="item-desc">Cafea intensă pentru un boost de energie.</div>
             </div>
-            <div class="item-price">19 LEI</div>
+            <div class="item-price">10 LEI</div>
         </div>
 
-        <div class="menu-item" data-category="reci">
+        <div class="menu-item" data-category="cafea">
             <div class="item-details">
-                <div class="item-name">Limonadă Craft cu Mentă</div>
-                <div class="item-desc">Lămâi proaspăt stoarse, miere organică și mentă fresh. 400ml.</div>
+                <div class="item-name">Cappuccino</div>
+                <div class="item-desc">Espresso amestecat perfect cu cremă de lapte fină.</div>
             </div>
-            <div class="item-price">22 LEI</div>
-        </div>
-
-        <div class="menu-item" data-category="reci">
-            <div class="item-details">
-                <div class="item-name">Iced Matcha Latte</div>
-                <div class="item-desc">Pudră de Matcha japoneză, lapte vegetal și gheață.</div>
-            </div>
-            <div class="item-price">26 LEI</div>
-        </div>
-
-        <div class="menu-item" data-category="desert">
-            <div class="item-details">
-                <div class="item-name">Cheesecake Basc</div>
-                <div class="item-desc">Copt la temperatură înaltă, interior cremos și sos de fructe de pădure.</div>
-            </div>
-            <div class="item-price">28 LEI</div>
+            <div class="item-price">14 LEI</div>
         </div>
     </div>
 
@@ -137,7 +145,7 @@
         <div class="sheet-handle"></div>
         <div class="sheet-title">Informații Utile</div>
         
-        <div class="action-btn" onclick="alert('Parola rețelei Wi-Fi este: Lounge2026\n\nConectare plăcută!')">
+        <div class="action-btn" onclick="alert('Parola rețelei Wi-Fi este: SpeedCafe2026\n\nConectare plăcută!')">
             <i class="fas fa-wifi"></i> 
             <div>Parolă Wi-Fi Gratuit</div>
         </div>
@@ -156,20 +164,18 @@
     <script>
         // Funcția de filtrare inteligentă
         function filterMenu(category, btnElement) {
-            // 1. Schimbă butonul activ
             let buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
 
-            // 2. Filtrează produsele
             let items = document.querySelectorAll('.menu-item');
             items.forEach(item => {
                 if (category === 'all' || item.getAttribute('data-category') === category) {
                     item.style.display = 'flex';
-                    setTimeout(() => item.style.opacity = '1', 50); // delay mic pentru efect smooth
+                    setTimeout(() => item.style.opacity = '1', 50); 
                 } else {
                     item.style.opacity = '0';
-                    setTimeout(() => item.style.display = 'none', 300); // asteapta animatia inainte sa ascunda
+                    setTimeout(() => item.style.display = 'none', 300); 
                 }
             });
         }
@@ -185,4 +191,3 @@
 
 </body>
 </html>
-
